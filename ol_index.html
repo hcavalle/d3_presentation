@@ -4,10 +4,10 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>D3.js - a presentation by HC</title>
+		<title>reveal.js - The HTML Presentation Framework</title>
 
-		<meta name="description" content="The data vis library.">
-		<meta name="author" content="Harrison Cavallero">
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -41,114 +41,50 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h1>D3.js</h1>
-          <h3>The data vis library </h3>
-          <p>and how it can work with Node.js, docker and Apache Storm</p>
+					<h1>Reveal.js</h1>
+					<h3>The HTML Presentation Framework</h3>
 					<p>
-            <small>by <a href='cavallero.me'>Harrison Cavallero</a></small>
+						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
 					</p>
 				</section>
 
 				<section>
-          <section>
-            <h2>What is D3?</h2>
-            <p>
-              D3 is a JavaScript library for manipulating <a href="https://github.com/mbostock/d3/wiki/Gallery" target="_blank">documents based on data.</a>
-            </p>
-          </section>                                            
-          <section>
-            <h2>How does it do it?</h2>
-              <p class="fragment">Binds data <strong> arbitrarily </strong> to DOM</p>
-              <p class="fragment">Display that data with HTML/CSS/SVG</p>
-              <p class="fragment">Transform and transition based on data/interaction</p>
-          </section>
-        </section>
+					<h2>Hello There</h2>
+					<p>
+						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
+					</p>
+				</section>
 
 				<!-- Example of nested vertical slides -->
 				<section>
 					<section>
-						<h2>What is teh codez?</h2>
-            <p>HTML<p>
-            <pre><code data-trim contenteditable>
-&lt;html&gt;                                                                                                  
-  &lt;head&gt;                                                                                                
-    &lt;script src=&quot;js/d3.v3.min.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;                                             
-    &lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;                                                            
-    &lt;script src=&quot;js/vis.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;                                                   
-  &lt;/head&gt;                                                                                               
-  &lt;body&gt;                                                                                                
-  &lt;/body&gt;                                                                                               
-&lt;/html&gt;
-            </code></pre>
-            <p>
-              <small>
-                Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.
-              </small>
-            </p>
-          </section>
-					<section>
-						<h2>JS</h2>
-            <pre><code data-trim contenteditable>
- d3.json("path/to/jsonfile", function(error, json) {                                                
-    if (error) return console.warn(error);                                                              
-    data = json;                                                                                        
-    var vis = new Vis('body', data);                                                   
-    vis.go();
-  });             
-            </code></pre>
+						<h2>Vertical Slides</h2>
+						<p>Slides can be nested inside of each other.</p>
+						<p>Use the <em>Space</em> key to navigate through all slides.</p>
+						<br>
+						<a href="#" class="navigate-down">
+							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+						</a>
 					</section>
 					<section>
-						<h2>JS contd...</h2>
-            <pre><code data-trim contenteditable>
-
-  var Vis = function(target, data) {                                                           
-    //init                                                                                              
-    this.data = data;                                                                                   
-    this.target = target;
-                                                                                                        
-    //abstract out into d3_container                                                                    
-    this.Container =                                                                                 
-      d3.select("#"+this.target)                                                                      
-        .append("svg")                                                                                  
-        .attr("class", "vis")                                                                  
-        .attr("width", 1080)                                                                            
-    this.Nodes = this.container
-      .selectAll("svg:g")
-      .data(this.data);
-  };                                                                                                    
-                                                                                                        
-            </code></pre>
+						<h2>Basement Level 1</h2>
+						<p>Nested slides are useful for adding additional detail underneath a high level horizontal slide.</p>
 					</section>
- 					<section>
-						<h2>More JS...</h2>
-            <pre><code data-trim contenteditable>
-  Vis.prototype =  {                                                                            
-    go: function go() {                                                                                 
-      this.Container                                                                                 
-        .transition()                                                                                   
-        .duration(1000)                                                                                 
-        .attr("width", 1200).attr("height", this.h*110);                                                
-
-      this.Nodes
-        .enter()
-        .append("circle")
-        .attr("class", "node")                                                                          
-        .attr("id", function(d) { return d.key})                                                        
-        .attr("width", 1080); 
-    }
-            </code></pre>
-            <p> <a href="vis.html" target="_blank"> See it in action </a> </p>
+					<section>
+						<h2>Basement Level 2</h2>
+						<p>That's it, time to go back up.</p>
+						<br>
+						<a href="#/2">
+							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Up arrow" style="-webkit-transform: rotate(180deg);">
+						</a>
 					</section>
- 
 				</section>
 
 				<section>
-					<h2>Dynamic Data Sources</h2>
+					<h2>Slides</h2>
 					<p>
-            Loading data from an:
+						Not a coder? Not a problem. There's a fully-featured visual editor for authoring these, try it out at <a href="http://slides.com" target="_blank">http://slides.com</a>.
 					</p>
-          <p class="fragment">api</p>
-          <p class="fragment">socket.io</p>
 				</section>
 
 				<section>
