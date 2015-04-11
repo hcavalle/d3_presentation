@@ -58,7 +58,10 @@
           </section>                                            
           <section>
             <h2>How does it do it?</h2>
-              <p class="fragment">Binds data <strong> arbitrarily </strong> to DOM</p>
+            <p class="fragment">
+              Bind (and manipulte) data <strong> arbitrarily </strong> to 
+              <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction">DOM</a>
+            </p>
               <p class="fragment">Display that data with HTML/CSS/SVG</p>
               <p class="fragment">Transform and transition based on data/interaction</p>
           </section>
@@ -66,39 +69,68 @@
 
 				<!-- Example of nested vertical slides -->
 				<section>
-					<section>
-						<h2>What is teh codez?</h2>
-            <p>HTML<p>
-            <pre><code data-trim contenteditable>
-&lt;html&gt;                                                                                                  
-  &lt;head&gt;                                                                                                
-    &lt;script src=&quot;js/d3.v3.min.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;                                             
-    &lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;                                                            
-    &lt;script src=&quot;js/vis.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;                                                   
-  &lt;/head&gt;                                                                                               
-  &lt;body&gt;                                                                                                
-  &lt;/body&gt;                                                                                               
-&lt;/html&gt;
-            </code></pre>
-            <p>
-              <small>
-                Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.
-              </small>
-            </p>
+          <section>
+            <h2>Building Blocks</h2>
+            <p>The d3 object and api basics</p>
+            <div class="fragment">
+              <pre><code data-trim contenteditable>
+  d3.select()
+    .enter()
+    .exit()
+  d3.transition()
+  d3.svg()
+  d3.json()
+  d3.nest()
+              </code></pre>
+              </ul>
+            </div>
           </section>
 					<section>
-						<h2>JS</h2>
-            <pre><code data-trim contenteditable>
- d3.json("path/to/jsonfile", function(error, json) {                                                
-    if (error) return console.warn(error);                                                              
-    data = json;                                                                                        
-    var vis = new Vis('body', data);                                                   
-    vis.go();
-  });             
+						<h2>Selections</h2>
+            <p>Select an element from the DOM for d3 operation</p>
+            <pre class="fragment"><code data-trim contenteditable>
+
+  var Vis = function(target, data) {                                                           
+    //init                                                                                              
+    this.data = data;                                                                                   
+    this.target = target;
+                                                                                                        
+    //abstract out into d3_container                                                                    
+    this.Container =                                                                                 
+      d3.select("#"+this.target)                                                                      
+  };                                                                                                    
+                                                                                                        
             </code></pre>
 					</section>
 					<section>
-						<h2>JS contd...</h2>
+						<h2>SVG</h2>
+            <p> Draw shapes, lines, text and stuff</p>
+            <pre class="fragment"><code data-trim contenteditable>
+
+  var Vis = function(target, data) {                                                           
+    //init                                                                                              
+    this.data = data;                                                                                   
+    this.target = target;
+                                                                                                        
+    //abstract out into d3_container                                                                    
+    this.Container =                                                                                 
+      d3.select("#"+this.target)                                                                      
+  };                                                                                                    
+                                                                                                        
+            </code></pre>
+            <p class="fragment">...</p>
+            <pre class="fragment"><strong><code data-trim contenteditable>
+
+    this.Container =                                                                                 
+      d3.select("#"+this.target)                                                                      
+        .append("svg")                                                                                  
+        .attr("class", "vis")                                                                  
+        .attr("width", 1080)                                                                            
+        
+            </code></strong></pre>
+					</section>
+					<section>
+						<h2>Bind Data</h2>
             <pre><code data-trim contenteditable>
 
   var Vis = function(target, data) {                                                           
@@ -112,15 +144,37 @@
         .append("svg")                                                                                  
         .attr("class", "vis")                                                                  
         .attr("width", 1080)                                                                            
+  };                                                                                                    
+            </code></pre>
+            <p>...</p>
+            <pre class="fragment"><strong><code>
     this.Nodes = this.container
       .selectAll("svg:g")
       .data(this.data);
-  };                                                                                                    
-                                                                                                        
+      
+            </code></strong></pre>
+					</section>
+ 					<section>
+            <h2>Enter</h2>
+            <p> More selection and SVG</p>
+            <p>  </p>
+            <pre><code data-trim contenteditable>
+  Vis.prototype =  {                                                                            
+    go: function go() {                                                                                 
+
+      this.Nodes
+        .enter()
+        .append("circle")
+        .attr("class", "node")                                                                          
+        .attr("id", function(d) { return d.key})                                                        
+        .attr("width", 1080); 
+    }
             </code></pre>
 					</section>
  					<section>
-						<h2>More JS...</h2>
+            <h2>Transitions</h2>
+            <p> Animante and transform</p>
+            <p>  </p>
             <pre><code data-trim contenteditable>
   Vis.prototype =  {                                                                            
     go: function go() {                                                                                 
@@ -137,11 +191,21 @@
         .attr("width", 1080); 
     }
             </code></pre>
+					</section>
+					<section>
+						<h2>Load data</h2>
+            <p> Load the data and 'go' </p>
+            <pre><code data-trim contenteditable>
+ d3.json("path/to/jsonfile", function(error, json) {                                                
+    if (error) return console.warn(error);                                                              
+    data = json;                                                                                        
+    var vis = new Vis('body', data);                                                   
+    vis.go();
+  });             
+            </code></pre>
             <p> <a href="vis.html" target="_blank"> See it in action </a> </p>
 					</section>
- 
 				</section>
-
 				<section>
 					<h2>Dynamic Data Sources</h2>
 					<p>
@@ -152,9 +216,11 @@
 				</section>
 
 				<section>
-					<h2>Point of View</h2>
+					<h2>Where to go from here...</h2>
 					<p>
-						Press <strong>ESC</strong> to enter the slide overview.
+					  <p> API docs </p>
+            <p> Mbstock examples </p>
+            <p> Native user interactions </p>
 					</p>
 					<p>
 						Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
