@@ -57,6 +57,13 @@
             </p>
           </section>                                            
           <section>
+            <h2>What D3 is not...</h2>
+            <p>
+            D3 is not a collection of templates, or precanned charting/graphing packages. 
+            </p>
+            <p> <small><a href="http://www.highcharts.com/"> see highcharts.js</a></small> </p>
+          </section>                                            
+          <section>
             <h2>How does it do it?</h2>
             <p class="fragment">
               Bind (and manipulte) data <strong> arbitrarily </strong> to 
@@ -80,9 +87,36 @@
   d3.transition()
   d3.svg()
   d3.json()
-  d3.nest()
               </code></pre>
               </ul>
+              <p class="fragment"> <a href="http://tributary.io/inlet/4741cbe63c7649a9c7af" target="_blank">REPL</a></p>
+					<aside class="notes">
+					  var svg = d3.select("svg")
+
+var dat = [1,2,3,4];
+
+svg.append("rect")
+.attr({
+  width: 100,
+  height: 100,
+  x: 200,
+  y: 62,
+  fill: "#3BA360"
+});
+
+var circles = svg.selectAll("circle")
+  .data(dat)
+
+var clicked = function() {
+  circles.enter()
+  .append("circle")
+  .attr("cx", function(d){return d*100})
+  .attr("cy", function(d){return d*100})
+  .attr("r", 30);
+};
+
+svg.on("click", function() {clicked()});
+					</aside>
             </div>
           </section>
 					<section>
@@ -215,36 +249,55 @@
             <p class="fragment">api</p>
             <p class="fragment">socket.io</p>
           </section>
+        </section>
+        <section>
+          <h2>Getting Crazy</h2>
+          <p class="fragment">
+            <a href="http://10consulting.com/2014/02/19/d3-plus-reactjs-for-charting/">
+              Reusable charting components (reactjs + d3)
+            </a>
+          </p>
+          <p class="fragment">
+            <a href="https://www.youtube.com/watch?v=DRgs8L4AOgc">
+              D3, socket.io, redis and kafa/storm: Realtime BI
+            </a>
+          </p>
+        </section>
 
-          <section>
-            <h2>Where to go from here...</h2>
-            <p>
-              <p> API docs </p>
-              <p> Mbstock examples </p>
-              <p> Native user interactions </p>
-            </p>
-            <p>
-              Hold down alt and click on any element to zoom in on it using <a href="http://lab.hakim.se/zoom-js">zoom.js</a>. Alt + click anywhere to zoom back out.
-            </p>
-          </section>
-				</section>
-
-				<section>
-					<h2>Speaker View</h2>
-					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-					<p>Press the <em>S</em> key to try it out.</p>
-
-					<aside class="notes">
-						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-					</aside>
-				</section>
+        <section>
+          <h2>Where to go from here...</h2>
+          <p> 
+            <a href="https://github.com/mbostock/d3/wiki">
+              Wiki
+            </a>
+          </p>
+          <p> 
+            <a href="https://github.com/mbostock/d3/wiki/API-Reference#d3layout-layouts"> Layouts </a> </p> <p> 
+            <a href="https://github.com/mbostock/d3/wiki/API-Reference">
+              API Docs
+            </a>
+          </p>
+          <p> 
+            <a href="http://bl.ocks.org/mbostock">
+              Mbostock's blocks
+            </a>
+          </p>
+          <p> 
+            <a href="https://github.com/mbostock/d3/wiki/Gallery">
+              The gallery
+            </a>
+          </p>
+          <p> 
+            <a href="http://animateddata.co.uk/lab/d3enterexit/">
+              Enter, update, exit
+            </a>
+          </p>
+        </section>
 
 
 				<section style="text-align: left;">
 					<h1>THE END</h1>
 					<p>
-						- <a href="http://slides.com">Try the online editor</a> <br>
-						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
 					</p>
 				</section>
 
