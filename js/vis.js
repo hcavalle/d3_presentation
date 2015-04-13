@@ -4,14 +4,11 @@ document.addEventListener("DOMContentLoaded", function() {
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
   }
   var source = getParameterByName("source");
-  console.log('before check source: ', source);
   var source = source == null || source.length == 0 ? '../json/ws_od6.json' : source;
-  console.log('after check source: ', source);
   //d3.json("../json/ws_od6.json", function(error, json) {
   d3.json(source, function(error, json) {
     if (error) return console.warn(error);                                                              
     data = json;                                                                                        
-    console.log(data);
     var vis = new Vis('body', data);                                                   
     vis.go();
     vis.expand();
@@ -21,6 +18,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     $("#trans-move").on("click", function() {
       vis.nodes_move();  
+    });
+    $("#trans-move-del").on("click", function() {
+      vis.nodes_move(1000);  
     });
     
     $("#trans-shrink").on("click", function() {
@@ -48,28 +48,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
   var Vis = function(target, data) {                                                           
     console.log('init...');
-    console.log('data again', data);
     if (Array.isArray(data)) {
       this.data = d3.nest()                                                                       
         .key(function(d) { 
-          console.log('d', Object.keys(d)); 
           var key = Object.keys(d)[1];
-          console.log('key', key);
-          console.log('d.key', d.key);
           return d[key];})
         .entries(data);                                                                                   
     }
     else {
       this.data = [];
       for (var k in data) {
-        console.log("k in data", k, data[k]);
         this.data.push({"key":k,  "value": data[k]});
       }
-      console.log(this.data)
       //this.data=[data];
     }
     //init                                                                                              
-    console.log('last data', this.data);
     this.target = target;
     this.h = this.data.length *100;
     this.w = 1200;
@@ -83,7 +76,21 @@ document.addEventListener("DOMContentLoaded", function() {
     this.Nodes = this.Container
       .selectAll("g")
       .data(this.data);
-    console.log(this.Nodes);
+    this.subNodes = function(nodes) {
+      nodes.each(function(d,i) {
+        var subnode = d3.selectAll('circle')
+          .data(d)
+        subnode
+          .enter()
+          .append('circle')
+          .attr("cx", 100)                                                                          
+          .attr("cy",function(d, i) {console.log("subnode d:", d);return i * 100 + 50}) 
+          .attr("r", 40/2)        
+          .attr("class", "node")                                                
+          .style("fill", "green")
+
+      });
+    }
     
   };                                                                                                    
 
@@ -97,8 +104,9 @@ document.addEventListener("DOMContentLoaded", function() {
         .attr("cy",function(d, i) {return i * 100 + 50})                                                
         .attr("r", 40)        
         .attr("class", "node")                                                                          
-        .attr("id", function(d, i) { console.log('d incircles', d); return i})                                                        
         .style("fill", "red")
+
+      this.subNodes(this.Nodes)
     },               
     write_text: function write_text() {
       this.Nodes.text = this.Nodes
@@ -113,10 +121,6 @@ document.addEventListener("DOMContentLoaded", function() {
     },
     circle_color: function circle_color(color) {
       if (color.length == 0 || color == null) { color = "blue"}
-      console.log('color: ', color);
-      console.log('style: ', this.Nodes.circles.style("fill"));
-      console.log('circles are: ', this.Nodescircles);
-      console.log('Nodes are: ', this.Nodes);
       _this = this;
       this.Nodes.circles
         .transition()
@@ -128,18 +132,18 @@ document.addEventListener("DOMContentLoaded", function() {
         .transition()
         .attr("r", this.Nodes.circles.attr("r")/4)
     },
-    nodes_move: function nodes_move() {
+    nodes_move: function nodes_move(delay) {
       var add = this.Nodes.circles.attr("cx") == 50 ? 550 : 50;
-      console.log('add: ', add);
       this.Nodes.circles     
         .transition()
+        .duration(1000)
+        .delay(function (d, i) { return delay !=null ? i*100 : 0})
         .attr("cx", add)
       this.Nodes.text    
         .transition()
         .attr("x", add)
     },
     go: function go() {                                                                                 
-      console.log('go');
       this.draw_circles();
       this.write_text();
 

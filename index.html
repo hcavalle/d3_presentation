@@ -20,6 +20,26 @@
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
 
+    <script src="js/d3.v3.min.js" charset="utf-8"></script>                                             
+    <script>
+      var testData = [
+      {
+        "x_axis": 30,
+          "y_axis": 30,
+          "radius": 20,
+          "color" : "green"
+      }, {
+        "x_axis": 70,
+          "y_axis": 70,
+          "radius": 20,
+          "color" : "purple"
+      }, {
+        "x_axis": 110,
+          "y_axis": 100,
+          "radius": 20,
+          "color" : "red"
+      }];
+    </script>
 		<!-- Printing and PDF exports -->
 		<script>
 			var link = document.createElement( 'link' );
@@ -43,7 +63,7 @@
 				<section>
 					<h1>D3.js</h1>
           <h3>The data vis library </h3>
-          <p>and how it can work with Node.js, docker and Apache Storm</p>
+          <p> A brief intro, that tries to be so much more</p>
 					<p>
             <small>by <a href='cavallero.me'>Harrison Cavallero</a></small>
 					</p>
@@ -53,8 +73,9 @@
           <section>
             <h2>What is D3?</h2>
             <p>
-              D3 is a JavaScript library for manipulating <a href="https://github.com/mbostock/d3/wiki/Gallery" target="_blank">documents based on data.</a>
+              D3 is a JavaScript library for manipulating <a href="http://d3js.org/" target="_blank">documents based on data.</a>
             </p>
+            <p class="fragment"> It's kinda like jQuery for data in JS</p>
           </section>                                            
           <section>
             <h2>What D3 is not...</h2>
@@ -64,16 +85,95 @@
             <p> <small><a href="http://www.highcharts.com/"> see highcharts.js</a></small> </p>
           </section>                                            
           <section>
+            <h2>Quick room temp</h2>
+            <p>Raise your hand if you are...</p>
+            <p class='fragment current-visible visible current-fragment'> 
+               semi 'code-literate' in >= 1 programming language 
+            </p>
+            <p class='fragment current-visible visible current-fragment'> 
+              able to read the javascripts 
+            </p>
+            <p class='fragment current-visible visible current-fragment'> 
+              one with the DOM and frontend js
+            </p>
+            <p class='fragment current-visible visible current-fragment'> 
+              a user of D3.js 
+            </p>
+          </section>                                            
+          <section>
             <h2>How does it do it?</h2>
             <p class="fragment">
-              Bind (and manipulte) data <strong> arbitrarily </strong> to 
-              <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction">DOM</a>
+              Bind data <strong> arbitrarily </strong> to 
+              <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction">DOM</a> and manipulate elements based on that data.
             </p>
               <p class="fragment">Display that data with HTML/CSS/SVG</p>
               <p class="fragment">Transform and transition based on data/interaction</p>
           </section>
         </section>
-
+        <section>
+          <section>
+            <h2>Gross overgeneralization time</h2>
+            <p class="fragment">
+              Mileage may vary...
+            </p>
+            <aside class="notes">
+              built on open web standards
+            </aside>
+          </section>
+          <section>
+            <h2>The DOM</h2>
+            <p class="fragment">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model">
+                Document Object Model
+              </a>
+            </p>
+            <blockquote class="fragment">
+              "Essentially, it connects web pages to scripts or programming languages."
+            </blockquote>
+          </section>
+          <section>
+            <h2>SVG</h2>
+            <p class="fragment">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/SVG">
+                Scalable Vector Graphics
+              </a>
+            </p>
+            <blockquote class="fragment">
+              "SVG is essentially to graphics what XHTML is to text."
+            </blockquote>
+          </section>
+          <section>
+            <h2>HTML/CSS</h2>
+            <p> If you don't know what these are...</p>
+            <p class="fragment">tune out now.</p>
+          </section>
+          <section>                                   
+            <h2>JSON</h2>
+            <p class="fragment">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON">
+              JSON Reference
+              </a>
+            </p>
+            <blockquote class="fragment">
+              "The JavaScript Object Notation (JSON) is a data-interchange format."
+            </blockquote>
+          </section>
+          <section>
+            <h2>Assumptons for all! </h2>
+            <p> 
+              I'm assuming you all understand... 
+            </p>
+            <p class="fragment">
+              (HTML/CSS)
+            </p>
+            <p class="fragment">
+             browsers/web servers
+            </p>
+            <p class="fragment">
+              Basic Object orientedness
+            </p>
+          </section>
+        </section>
 				<!-- Example of nested vertical slides -->
 				<section>
           <section>
@@ -81,6 +181,7 @@
             <p>The d3 object and api basics</p>
             <div class="fragment">
               <pre><code data-trim contenteditable>
+  d3
   d3.select()
     .enter()
     .exit()
@@ -88,36 +189,42 @@
   d3.svg()
   d3.json()
               </code></pre>
-              </ul>
-              <p class="fragment"> <a href="http://tributary.io/inlet/4741cbe63c7649a9c7af" target="_blank">REPL</a></p>
-					<aside class="notes">
-					  var svg = d3.select("svg")
-
-var dat = [1,2,3,4];
-
-svg.append("rect")
-.attr({
-  width: 100,
-  height: 100,
-  x: 200,
-  y: 62,
-  fill: "#3BA360"
-});
-
-var circles = svg.selectAll("circle")
-  .data(dat)
-
-var clicked = function() {
-  circles.enter()
-  .append("circle")
-  .attr("cx", function(d){return d*100})
-  .attr("cy", function(d){return d*100})
-  .attr("r", 30);
-};
-
-svg.on("click", function() {clicked()});
-					</aside>
             </div>
+            <p class="fragment"> 
+              <a href="https://github.com/mbostock/d3/wiki/API-Reference" target='_blank'>
+                API Docs
+              </a>
+            </p>
+            <p class="fragment"> 
+              <a href="http://tributary.io/inlet/4741cbe63c7649a9c7af" target="_blank">REPL</a>
+            </p>
+            <aside class="notes">
+              var svg = d3.select("svg")
+
+  var dat = [1,2,3,4];
+
+  svg.append("rect")
+  .attr({
+    width: 100,
+    height: 100,
+    x: 200,
+    y: 62,
+    fill: "#3BA360"
+  });
+
+  var circles = svg.selectAll("circle")
+    .data(dat)
+
+  var clicked = function() {
+    circles.enter()
+    .append("circle")
+    .attr("cx", function(d){return d*100})
+    .attr("cy", function(d){return d*100})
+    .attr("r", 30);
+  };
+
+  svg.on("click", function() {clicked()});
+            </aside>
           </section>
 					<section>
 						<h2>Selections</h2>
@@ -164,7 +271,7 @@ svg.on("click", function() {clicked()});
             </code></strong></pre>
 					</section>
 					<section>
-						<h2>Bind Data</h2>
+						<h2>Bind/join Data</h2>
             <pre><code data-trim contenteditable>
 
   var Vis = function(target, data) {                                                           
@@ -248,6 +355,9 @@ svg.on("click", function() {clicked()});
             </p>
             <p class="fragment">api</p>
             <p class="fragment">socket.io</p>
+            <p class="fragment">redis</p>
+            <p class="fragment">any file</p>
+            <p class="fragment">pretty much anything from anywhere</p>
           </section>
         </section>
         <section>
@@ -272,7 +382,9 @@ svg.on("click", function() {clicked()});
             </a>
           </p>
           <p> 
-            <a href="https://github.com/mbostock/d3/wiki/API-Reference#d3layout-layouts"> Layouts </a> </p> <p> 
+            <a href="https://github.com/mbostock/d3/wiki/API-Reference#d3layout-layouts"> Layouts </a> 
+          </p> 
+          <p> 
             <a href="https://github.com/mbostock/d3/wiki/API-Reference">
               API Docs
             </a>
@@ -289,20 +401,23 @@ svg.on("click", function() {clicked()});
           </p>
           <p> 
             <a href="http://animateddata.co.uk/lab/d3enterexit/">
-              Enter, update, exit
+              Enter, update, exit (more)
             </a>
           </p>
         </section>
-
-
 				<section style="text-align: left;">
 					<h1>THE END</h1>
 					<p>
+            Made using <a href="http://lab.hakim.se/reveal-js/#/" target="_blank">reveal.js</a>
+					</p>
+					<p>
+            Running on aws eb
+					</p>
+					<p>
+            Deployed using docker
 					</p>
 				</section>
-
 			</div>
-
 		</div>
 
 		<script src="lib/js/head.min.js"></script>
