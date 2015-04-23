@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
   d3.json(source, function(error, json) {
     if (error) return console.warn(error);                                                              
     data = json;                                                                                        
-    var vis = new Vis('body', data);                                                   
+    var vis = new Vis('section', data);                                                   
     vis.go();
     vis.expand();
     $("#trans-color").on("click", function() {
