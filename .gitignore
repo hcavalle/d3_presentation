@@ -6,3 +6,13 @@ node_modules/
 .sass-cache
 css/reveal.min.css
 js/reveal.min.js
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+bin/**
+lib/**
+lib64
+include/
